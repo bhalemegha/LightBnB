@@ -71,7 +71,6 @@ const addUser =  function(user) {
   const values = [user.name,user.email,user.password];
   return pool.query(selectSql,values)
               .then((result) => { 
-                console.log(result.rows);
                 return result.rows[0] 
               })
               .catch((err) => {
@@ -88,7 +87,18 @@ exports.addUser = addUser;
  * @return {Promise<[{}]>} A promise to the reservations.
  */
 const getAllReservations = function(guest_id, limit = 10) {
-  return getAllProperties(null, 2);
+
+  const selectSql = "SELECT * FROM reservations AS r JOIN users AS u ON u.id = r.guest_id JOIN properties AS p ON p.id = r.property_id JOIN property_reviews AS pr ON pr.reservation_id = r.id WHERE r.guest_id = $1 AND start_date <> current_date AND end_date <> current_date limit $2";
+  const values = [guest_id, limit];
+  return pool.query(selectSql,values)
+              .then((result) => {
+                return result.rows
+                })
+              .catch((err) => {
+                console.log();
+              });
+  
+  // return getAllProperties(null, 2);
 }
 exports.getAllReservations = getAllReservations;
 
