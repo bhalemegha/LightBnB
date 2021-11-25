@@ -1,7 +1,8 @@
-SELECT p.title, AVG(pr.rating) AS average_rating
-FROM property_reviews AS pr
-JOIN properties AS p
-ON p.id = pr.property_id
-WHERE city = 'Vancouver' AND pr.rating >= 4
-GROUP BY p.id
-ORDER BY p.cost_per_night
+SELECT properties.*, avg(property_reviews.rating) as average_rating
+FROM properties
+JOIN property_reviews ON properties.id = property_id
+WHERE city LIKE '%ancouv%'
+GROUP BY properties.id
+HAVING avg(property_reviews.rating) >= 4
+ORDER BY cost_per_night
+LIMIT 10;
