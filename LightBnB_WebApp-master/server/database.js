@@ -25,17 +25,6 @@ const getUserWithEmail = function(email) {
               .catch((err) => {
                 console.log();
               });
-
-  // let user;
-  // for (const userId in users) {
-  //   user = users[userId];
-  //   if (user.email.toLowerCase() === email.toLowerCase()) {
-  //     break;
-  //   } else {
-  //     user = null;
-  //   }
-  // }
-  // return Promise.resolve(user);
 }
 exports.getUserWithEmail = getUserWithEmail;
 
@@ -52,8 +41,6 @@ const getUserWithId = function(id) {
               .catch((err) => {
                 console.log();
               });
-
-  // return Promise.resolve(users[id]);
 }
 exports.getUserWithId = getUserWithId;
 
@@ -64,9 +51,6 @@ exports.getUserWithId = getUserWithId;
  * @return {Promise<{}>} A promise to the user.
  */
 const addUser =  function(user) {
-  // const userId = Object.keys(users).length + 1;
-  // user.id = userId;
-  // users[userId] = user;
   const selectSql = "INSERT INTO users (name, email, password) VALUES ($1,$2,$3) RETURNING *;";
   const values = [user.name,user.email,user.password];
   return pool.query(selectSql,values)
@@ -97,12 +81,8 @@ const getAllReservations = function(guest_id, limit = 10) {
               .catch((err) => {
                 console.log();
               });
-  
-  // return getAllProperties(null, 2);
 }
 exports.getAllReservations = getAllReservations;
-
-/// Properties
 
 /**
  * Get all properties.
@@ -110,13 +90,6 @@ exports.getAllReservations = getAllReservations;
  * @param {*} limit The number of results to return.
  * @return {Promise<[{}]>}  A promise to the properties.
  */
-// const getAllProperties = function(options, limit = 10) {
-//   const limitedProperties = {};
-//   for (let i = 1; i <= limit; i++) {
-//     limitedProperties[i] = properties[i];
-//   }
-//   return Promise.resolve(limitedProperties);
-// }
 
 const getAllProperties = function (options, limit = 10) {
   const queryParams = [];
@@ -159,10 +132,8 @@ const getAllProperties = function (options, limit = 10) {
   LIMIT $${queryParams.length};
   `;
 
-  console.log(queryString, queryParams);
   return pool.query(queryString, queryParams)
               .then((res) => {
-                console.log(res.rows);
                 return res.rows;
               });
 };
